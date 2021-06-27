@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">SaludableApp</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="btn_ingresar">ingresar</string>
+    <string name="btn_register">Si no tiene usuario registrese aquí</string>
+    <string name="user_hint">Usuario</string>
+    <string name="login_subtitle">Identificarse:</string>
+    <string name="login_title">Bienvenido</string>
+    <string name="register_title">Registro</string>
+    <string name="name_label">Nombre</string>
+    <string name="surname_label">Apellido</string>
+    <string name="document_label">DNI</string>
+    <string name="gender_subtitle">Genero:</string>
+    <string name="gender_f_option">Femenino</string>
+    <string name="gender_m_option">Masculino</string>
+    <string name="born_date_label">Fecha de Nacimiento</string>
+    <string name="city_label">Localidad</string>
+    <string name="treatment_subtitle">Tratamiento:</string>
+    <string name="treatment1_label">Anorexia</string>
+    <string name="treatment2_label">Bulimia</string>
+    <string name="treatment3_label">Obesidad</string>
+    <string name="cancel_btn_label">Cancelar</string>
+    <string name="next_btn_label">Siguiente</string>
+</resources>

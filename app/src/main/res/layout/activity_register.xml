@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/green_text"
+    android:padding="7dp"
+    tools:context=".RegisterActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/register_tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/register_title"
+            android:textAlignment="center"
+            android:textColor="@color/green_back"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/reg_et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/name_label"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/reg_et_surname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/surname_label"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/reg_et_dni"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/document_label"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/reg_tv_gender_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="7dp"
+            android:text="@string/gender_subtitle"
+            android:textSize="16sp" />
+
+        <RadioGroup
+            android:id="@+id/reg_rg_gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/reg_rb_female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/gender_f_option" />
+
+            <RadioButton
+                android:id="@+id/reg_rb_male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/gender_m_option" />
+
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/reeg_et_born"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/born_date_label"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/reg_et_locale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/city_label"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/reg_et_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/user_hint"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/reg_et_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/password_hint"
+            android:inputType="textPassword" />
+
+        <RadioGroup
+            android:id="@+id/reg_rg_treatment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/reg_tv_treatment_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="3dp"
+                android:text="@string/treatment_subtitle"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/reg_rb_anorex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/treatment1_label" />
+
+            <RadioButton
+                android:id="@+id/reg_rb_bulimia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/treatment2_label" />
+
+            <RadioButton
+                android:id="@+id/reg_rb_obesidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/treatment3_label" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/reg_btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:text="@string/cancel_btn_label" />
+
+        <Button
+            android:id="@+id/reg_btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="1"
+            android:text="@string/next_btn_label" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
