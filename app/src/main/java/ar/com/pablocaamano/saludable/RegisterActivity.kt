@@ -9,12 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import ar.com.pablocaamano.saludable.fragments.DatePickerFragment
 import ar.com.pablocaamano.saludable.model.Patient
 import ar.com.pablocaamano.saludable.utils.ActivityUtils
+import ar.com.pablocaamano.saludable.utils.FormUtils
 import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
 
     private val utils: ActivityUtils = ActivityUtils();
-    private val ERROR_CODE: String = "ERROR";
+    private val formUtils: FormUtils = FormUtils();
+
+    private lateinit var patient: Patient;
 
     private lateinit var nextBtn: Button;
     private lateinit var backBtn: Button;
@@ -43,11 +46,8 @@ class RegisterActivity : AppCompatActivity() {
         });
 
         nextBtn.setOnClickListener(View.OnClickListener {
-
             val p: Patient = this.createPatient();
-
-            if(p.name != ERROR_CODE && p.surname != ERROR_CODE)
-                utils.goToActivity(this,CreadentialsActivity::class.java,p);
+            if(p.status) utils.goToActivity(this,CreadentialsActivity::class.java,p);
         });
     }
 
@@ -64,6 +64,15 @@ class RegisterActivity : AppCompatActivity() {
 
         this.nextBtn = findViewById(R.id.reg_btn_ok);
         this.backBtn = findViewById(R.id.reg_btn_back);
+
+        if(intent.getSerializableExtra("patient") != null){
+            this.patient =intent.getSerializableExtra("patient") as Patient;
+            nameText.setText(patient.name);
+            surnameText.setText(patient.surname);
+            dni.setText(patient.dni);
+            birthDate.setText(patient.birthDate);
+            location.setText(patient.city);
+        }
     }
 
     private fun showDatePicker(){
@@ -80,29 +89,29 @@ class RegisterActivity : AppCompatActivity() {
 
         val nameIn: String = this.nameText.text.toString();
         if (this.emptyInputValidation(nameIn)) {
-            this.markErrorET(nameText);
+            this.formUtils.markErrorInEditText(nameText);
             valid = false;
         }
         val surnameIn: String = this.surnameText.text.toString();
         if (this.emptyInputValidation(surnameIn)) {
-            this.markErrorET(surnameText);
+            this.formUtils.markErrorInEditText(surnameText);
             valid = false;
         }
         val dniIn: String = this.dni.text.toString();
         if (this.emptyInputValidation(dniIn) || dniIn.length < 5) {
-            this.markErrorET(dni);
+            this.formUtils.markErrorInEditText(dni);
             valid = false;
         }
 
         val dateIn: String = this.birthDate.text.toString();
         if(this.emptyInputValidation(dateIn)) {
-            this.markErrorET(birthDate);
+            this.formUtils.markErrorInEditText(birthDate);
             valid = false
         }
 
         val locIn: String = this.location.text.toString();
         if (this.emptyInputValidation(locIn)) {
-            this.markErrorET(location);
+            this.formUtils.markErrorInEditText(location);
             valid = false;
         }
 
@@ -120,10 +129,10 @@ class RegisterActivity : AppCompatActivity() {
 
 
         return if (valid) {
-            Patient(nameIn, surnameIn, Integer.valueOf(dniIn), 'F', dateIn, locIn, "", "", "");
+            Patient(nameIn, surnameIn, Integer.valueOf(dniIn), 'F', dateIn, locIn, "", "", "", valid);
         } else {
             Toast.makeText(this, "Faltan datos!", Toast.LENGTH_LONG).show();
-            Patient(ERROR_CODE, ERROR_CODE, 0, 'F', ERROR_CODE, ERROR_CODE, "", "", "");
+            Patient("", "", 0, 'F', "", "", "", "", "", valid);
         }
     }
 
@@ -131,13 +140,5 @@ class RegisterActivity : AppCompatActivity() {
         if(param.isEmpty() || param.isBlank())
             return true;
         return false;
-    }
-
-    private fun markErrorET(elem: EditText) {
-        val color: ColorStateList = ColorStateList.valueOf(Color.RED);
-        elem.backgroundTintList = color;
-
-        elem.setHintTextColor(Color.RED);
-        elem.setTextColor(Color.RED);
     }
 }
