@@ -1,21 +1,21 @@
 package ar.com.pablocaamano.saludable
 
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import ar.com.pablocaamano.saludable.dao.PatientsDBHelper
 import ar.com.pablocaamano.saludable.fragments.DatePickerFragment
 import ar.com.pablocaamano.saludable.model.Patient
 import ar.com.pablocaamano.saludable.utils.ActivityUtils
 import ar.com.pablocaamano.saludable.utils.FormUtils
-import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
 
     private val utils: ActivityUtils = ActivityUtils();
     private val formUtils: FormUtils = FormUtils();
+    private val db: PatientsDBHelper = PatientsDBHelper(this,null);
 
     private lateinit var patient: Patient;
 
@@ -47,7 +47,7 @@ class RegisterActivity : AppCompatActivity() {
 
         nextBtn.setOnClickListener(View.OnClickListener {
             val p: Patient = this.createPatient();
-            if(p.status) utils.goToActivity(this,CreadentialsActivity::class.java,p);
+            if(p.status) utils.goToActivity(this,CredentialsActivity::class.java,p);
         });
     }
 
@@ -115,7 +115,7 @@ class RegisterActivity : AppCompatActivity() {
             valid = false;
         }
 
-        var genderSelect: Char;
+        var genderSelect: Char = 'F';
         val selectionId: Int = this.genderGroup.checkedRadioButtonId;
         if(selectionId == -1){
             this.genderTitle.setTextColor(Color.RED);
@@ -127,9 +127,21 @@ class RegisterActivity : AppCompatActivity() {
             if (selectionId == this.mGender.id) genderSelect = 'M';
         }
 
+        // se verifica que el DNI no esté registrado en DB
+        if(valid) {
+            val res: List<Patient> = db.findUserByDocument(Integer.valueOf(dniIn));
+            for (p in res) {
+                if (p.dni == Integer.valueOf(dniIn)) {
+                    Toast.makeText(this, "Ya existe usuario con esse DNI", Toast.LENGTH_LONG)
+                        .show();
+                    this.formUtils.markErrorInEditText(dni);
+                    valid = false;
+                }
+            }
+        }
 
         return if (valid) {
-            Patient(nameIn, surnameIn, Integer.valueOf(dniIn), 'F', dateIn, locIn, "", "", "", valid);
+            Patient(nameIn, surnameIn, Integer.valueOf(dniIn), genderSelect, dateIn, locIn, "", "", "", valid);
         } else {
             Toast.makeText(this, "Faltan datos!", Toast.LENGTH_LONG).show();
             Patient("", "", 0, 'F', "", "", "", "", "", valid);

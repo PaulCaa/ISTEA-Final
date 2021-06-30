@@ -8,17 +8,19 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import ar.com.pablocaamano.saludable.dao.PatientsDBHelper
 import ar.com.pablocaamano.saludable.model.Patient
 import ar.com.pablocaamano.saludable.utils.ActivityUtils
 import ar.com.pablocaamano.saludable.utils.FormUtils
 import ar.com.pablocaamano.saludable.utils.PwdUtils
 import java.util.regex.Pattern
 
-class CreadentialsActivity : AppCompatActivity() {
+class CredentialsActivity : AppCompatActivity() {
 
     private val utils: ActivityUtils = ActivityUtils();
     private val formUtils: FormUtils = FormUtils();
     private val pwdUtils: PwdUtils = PwdUtils();
+    private val db: PatientsDBHelper = PatientsDBHelper(this,null);
 
     private lateinit var patient: Patient;
 
@@ -32,7 +34,7 @@ class CreadentialsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_creadentials);
+        setContentView(R.layout.activity_credentials);
 
         this.initElements();
 
@@ -95,6 +97,22 @@ class CreadentialsActivity : AppCompatActivity() {
             this.patient.user = userIn;
             this.patient.pwd = this.pwdUtils.encrypt(pwdIn);
             patient.status = true;
+        }
+
+        // Se verifica que el usuario no exista en DB
+        if(patient.status) {
+            val res: List<Patient> = db.findUserByUsername(userIn);
+            for (p in res) {
+                if (p.user == userIn) {
+                    Toast.makeText(
+                        this,
+                        "Ya existe usuario registrado con ese nombre",
+                        Toast.LENGTH_LONG
+                    ).show();
+                    this.formUtils.markErrorInEditText(user);
+                    patient.status = false;
+                }
+            }
         }
 
         return patient;

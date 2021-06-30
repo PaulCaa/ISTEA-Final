@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import ar.com.pablocaamano.saludable.dao.PatientsDBHelper
 import ar.com.pablocaamano.saludable.model.Patient
 import ar.com.pablocaamano.saludable.utils.ActivityUtils
 
 class TreatmentActivity : AppCompatActivity() {
 
     private val utils: ActivityUtils = ActivityUtils();
+    private val db: PatientsDBHelper = PatientsDBHelper(this,null);
 
     private lateinit var patient: Patient;
 
@@ -38,13 +40,18 @@ class TreatmentActivity : AppCompatActivity() {
         }
 
         this.backBtn.setOnClickListener(View.OnClickListener {
-           utils.goToActivity(this, CreadentialsActivity::class.java,this.patient);
+           utils.goToActivity(this, CredentialsActivity::class.java,this.patient);
         });
 
         this.nextBtn.setOnClickListener(View.OnClickListener {
             this.validateSelection();
-           Toast.makeText(this,"Usuario creado, ya puede loguearse :)",Toast.LENGTH_SHORT).show();
-           this.utils.goToActivity(this,MainActivity::class.java);
+            val registerResult = this.registerUser();
+            if(registerResult){
+                Toast.makeText(this,"Usuario creado, ya puede loguearse :)",Toast.LENGTH_SHORT).show();
+                this.utils.goToActivity(this,MainActivity::class.java);
+            } else {
+                Toast.makeText(this,"Ocurrió un error al registrar usuario, intentelo de buevo",Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -63,7 +70,7 @@ class TreatmentActivity : AppCompatActivity() {
             val aux: String = subtitle.text.toString();
             subtitle.text = patient.name + aux;
         }  else {
-            utils.goToActivity(this, CreadentialsActivity::class.java);
+            utils.goToActivity(this, CredentialsActivity::class.java);
         }
     }
 
@@ -71,5 +78,9 @@ class TreatmentActivity : AppCompatActivity() {
         val selectedId: Int = this.rgTreatments.checkedRadioButtonId;
         val rb: RadioButton = findViewById(selectedId);
         this.patient.treatment = rb.text.toString();
+    }
+
+    private fun registerUser(): Boolean {
+        return db.insert(this.patient);
     }
 }
