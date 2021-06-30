@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,27 +36,45 @@
             android:textSize="16sp" />
 
         <RadioGroup
-            android:id="@+id/reg_rg_treatment"
+            android:id="@+id/treatment_rg_treatment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <RadioButton
-                android:id="@+id/reg_rb_anorex"
+                android:id="@+id/treatment_rb_anorex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:text="@string/treatment1_label" />
 
             <RadioButton
-                android:id="@+id/reg_rb_bulimia"
+                android:id="@+id/treatment_rb_bulimia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/treatment2_label" />
 
             <RadioButton
-                android:id="@+id/reg_rb_obesidad"
+                android:id="@+id/treatment_rb_obesidad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/treatment3_label" />
+
+            <RadioButton
+                android:id="@+id/treatment_rb_other"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/other_label" />
+
+            <EditText
+                android:id="@+id/treatment_et_other"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/green_back"
+                android:ems="10"
+                android:enabled="false"
+                android:hint="@string/other_treatment_label"
+                android:inputType="textPersonName"
+                android:textColor="@color/green_back" />
 
         </RadioGroup>
 

@@ -22,9 +22,11 @@
     <string name="cancel_btn_label">Cancelar</string>
     <string name="next_btn_label">Siguiente</string>
     <string name="subtitle_personal_info">Datos personales</string>
-    <string name="treatment_tv_subtitle">Seleccione el tratamiento a realizar:</string>
+    <string name="treatment_tv_subtitle">, para finalizar selecciona el tratamiento a realizar:</string>
     <string name="back_btn_label">Atrás</string>
     <string name="finish_btn_label">Finalizar</string>
     <string name="password_repeat_hint">Repetir Contraseña</string>
     <string name="password_tip">Requisitos: la contraseña debe tener un largo mínimo de 5 caracteres y al menos un número</string>
+    <string name="other_label">Otro</string>
+    <string name="other_treatment_label">Ingrese tratamiento</string>
 </resources>

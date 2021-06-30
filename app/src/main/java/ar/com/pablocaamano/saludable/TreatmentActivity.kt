@@ -2,12 +2,21 @@ package ar.com.pablocaamano.saludable
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
+import android.view.View
+import android.widget.*
+import ar.com.pablocaamano.saludable.model.Patient
 import ar.com.pablocaamano.saludable.utils.ActivityUtils
 
 class TreatmentActivity : AppCompatActivity() {
 
     private val utils: ActivityUtils = ActivityUtils();
+
+    private lateinit var patient: Patient;
+
+    private lateinit var subtitle: TextView;
+    private lateinit var rgTreatments: RadioGroup;
+    private lateinit var rbOther: RadioButton;
+    private lateinit var otherInput: EditText;
 
     private lateinit var nextBtn: Button;
     private lateinit var backBtn: Button;
@@ -17,10 +26,50 @@ class TreatmentActivity : AppCompatActivity() {
         setContentView(R.layout.activity_treatment);
 
         this.initElements();
+
+        // se valida que se haya seleccionado "OTRO" para activar el EditText
+        this.rgTreatments.setOnCheckedChangeListener { group, checkedId ->
+            val rb: RadioButton = findViewById(checkedId);
+            if(rb == rbOther){
+                this.otherInput.isEnabled = true;
+            } else {
+                this.otherInput.isEnabled = true;
+            }
+        }
+
+        this.backBtn.setOnClickListener(View.OnClickListener {
+           utils.goToActivity(this, CreadentialsActivity::class.java,this.patient);
+        });
+
+        this.nextBtn.setOnClickListener(View.OnClickListener {
+            this.validateSelection();
+           Toast.makeText(this,"Usuario creado, ya puede loguearse :)",Toast.LENGTH_SHORT).show();
+           this.utils.goToActivity(this,MainActivity::class.java);
+        });
     }
 
     private fun initElements() {
+        this.subtitle = findViewById(R.id.treatment_tv_subtitle);
+
+        this.rgTreatments = findViewById(R.id.treatment_rg_treatment);
+        this.rbOther = findViewById(R.id.treatment_rb_other);
+        this.otherInput = findViewById(R.id.treatment_et_other);
+
         this.nextBtn = findViewById(R.id.treatment_btn_ok);
         this.backBtn = findViewById(R.id.treatment_btn_back);
+
+        if(intent.getSerializableExtra("patient") != null) {
+            this.patient = intent.getSerializableExtra("patient") as Patient;
+            val aux: String = subtitle.text.toString();
+            subtitle.text = patient.name + aux;
+        }  else {
+            utils.goToActivity(this, CreadentialsActivity::class.java);
+        }
+    }
+
+    private fun validateSelection() {
+        val selectedId: Int = this.rgTreatments.checkedRadioButtonId;
+        val rb: RadioButton = findViewById(selectedId);
+        this.patient.treatment = rb.text.toString();
     }
 }

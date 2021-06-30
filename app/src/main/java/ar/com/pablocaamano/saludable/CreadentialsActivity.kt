@@ -38,7 +38,7 @@ class CreadentialsActivity : AppCompatActivity() {
 
         nextBtn.setOnClickListener(View.OnClickListener {
             this.patient = this.validateCredentials(this.patient);
-            if(patient.status) utils.goToActivity(this, TreatmentActivity::class.java);
+            if(patient.status) utils.goToActivity(this, TreatmentActivity::class.java,patient);
         });
 
         backBtn.setOnClickListener(View.OnClickListener {
@@ -56,7 +56,7 @@ class CreadentialsActivity : AppCompatActivity() {
         this.backBtn = findViewById(R.id.credentials_btn_back);
 
         // se valida que vengan datos de la activity anterior
-        if(intent.getSerializableExtra("patient") != null){
+        if(intent.getSerializableExtra("patient") != null) {
             this.patient =intent.getSerializableExtra("patient") as Patient;
             user.setText("${patient.surname.lowercase()}.${patient.name.lowercase()}");
         } else {
@@ -94,13 +94,14 @@ class CreadentialsActivity : AppCompatActivity() {
             // TODO validar que el usuario no exista en la base de datos
             this.patient.user = userIn;
             this.patient.pwd = this.pwdUtils.encrypt(pwdIn);
+            patient.status = true;
         }
 
         return patient;
     }
 
     private fun validPwdCondition(pwd: String): Boolean {
-        val condition: Pattern = Pattern.compile("[a-zA-Z0-9]+");
+        val condition: Pattern = Pattern.compile("[a-zA-Z]+[0-9]+");
         return (pwd.length >= 5 && condition.matcher(pwd).matches());
     }
 }
