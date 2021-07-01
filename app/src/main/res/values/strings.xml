@@ -29,4 +29,9 @@
     <string name="password_tip">Requisitos: la contraseña debe tener un largo mínimo de 5 caracteres y al menos un número</string>
     <string name="other_label">Otro</string>
     <string name="other_treatment_label">Ingrese tratamiento</string>
+    <string name="exit_label">salir</string>
+    <string name="breakfast_label">DESAYUNO</string>
+    <string name="lunch_label">ALMUERZO</string>
+    <string name="snack_label">MERIENDA</string>
+    <string name="dinner_label">CENA</string>
 </resources>

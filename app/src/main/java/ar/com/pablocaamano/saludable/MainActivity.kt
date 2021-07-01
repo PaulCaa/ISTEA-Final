@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         ok.setOnClickListener(View.OnClickListener {
             this.validateCredentials();
-            if(this.patient.status) this.utils.goToActivity(this,DayRegisterActivity::class.java,this.patient);
+            if(this.patient.status) this.utils.goToActivity(this,PreReportActivity::class.java,this.patient);
         });
 
         reg.setOnClickListener(View.OnClickListener {

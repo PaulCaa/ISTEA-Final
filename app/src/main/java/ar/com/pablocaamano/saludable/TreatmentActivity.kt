@@ -81,6 +81,6 @@ class TreatmentActivity : AppCompatActivity() {
     }
 
     private fun registerUser(): Boolean {
-        return db.insert(this.patient);
+        return db.insertUser(this.patient);
     }
 }

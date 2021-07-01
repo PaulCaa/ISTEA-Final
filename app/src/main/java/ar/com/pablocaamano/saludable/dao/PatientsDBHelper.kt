@@ -6,13 +6,17 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import ar.com.pablocaamano.saludable.model.Report
 import ar.com.pablocaamano.saludable.model.Patient
+import ar.com.pablocaamano.saludable.utils.ModelUtils
 import java.lang.Exception
 
 class PatientsDBHelper (context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context,DATABASE_NAME,factory,DATABASE_VERSION) {
 
     companion object {
+        private val utils: ModelUtils = ModelUtils();
+
         private const val DATABASE_NAME = "patients-v1.db";
         private const val DATABASE_VERSION = 1;
 
@@ -26,10 +30,16 @@ class PatientsDBHelper (context: Context, factory: SQLiteDatabase.CursorFactory?
         const val COLUMN_USERNAME = "username";
         const val COLUMN_PWD = "pwd";
         const val COLUMN_TREATMENT = "treatment";
+
+        const val TABLE_REPORTS = "reports";
+        const val COLUMN_ID_REPORTS = "id_report";
+        const val COLUMN_DNI = "dni";
+        const val COLUMN_DATE = "date";
+        const val COLUMN_REPORT_DETAIL = "report_detail";
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val CREATE_TABLE = (
+        val CREATE_TABLE_PATIENTS = (
                 "CREATE TABLE [$TABLE_PATIENTS] (" +
                         "$COLUMN_ID INTEGER PRIMARY KEY," +
                         "$COLUMN_NAME TEXT," +
@@ -41,20 +51,29 @@ class PatientsDBHelper (context: Context, factory: SQLiteDatabase.CursorFactory?
                         "$COLUMN_PWD TEXT," +
                         "$COLUMN_TREATMENT TEXT)"
                 );
-        db?.execSQL(CREATE_TABLE);
+        db?.execSQL(CREATE_TABLE_PATIENTS);
+
+        val CREATE_TABLE_REPORTS = (
+                "CREATE TABLE [$TABLE_REPORTS] (" +
+                        "$COLUMN_ID_REPORTS INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "$COLUMN_DNI INTEGER," +
+                        "$COLUMN_DATE TEXT," +
+                        "$COLUMN_REPORT_DETAIL BLOB)"
+                );
+        db?.execSQL(CREATE_TABLE_REPORTS);
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         if(oldVersion != newVersion) {
             db?.execSQL("DROP TABLE IF EXISTS $TABLE_PATIENTS");
+            db?.execSQL("DROP TABLE IF EXISTS $TABLE_REPORTS");
             onCreate(db);
         }
     }
 
 
-    fun insert(p: Patient) : Boolean {
+    fun insertUser(p: Patient) : Boolean {
         Log.i("PatientsDBHelper","registrando paciente = {'user': '${p.user}', 'dni': '${p.dni}', 'name': '${p.name}', 'surname': '${p.surname}'}");
-        var result: Boolean;
         try{
             val db = this.writableDatabase;
 
@@ -71,12 +90,11 @@ class PatientsDBHelper (context: Context, factory: SQLiteDatabase.CursorFactory?
 
             db.insert(TABLE_PATIENTS,null, values);
             Log.i("PatientsDBHelper","usuario registrado");
-            result = true;
+            return true;
         } catch(e: Exception) {
             Log.e("PatientsDBHelper",e.message.toString());
-            result = false;
+            return false;
         }
-        return result;
     }
 
     fun findUserByDocument(dni: Int) : List<Patient> {
@@ -115,5 +133,24 @@ class PatientsDBHelper (context: Context, factory: SQLiteDatabase.CursorFactory?
             Log.e("PatientsDBHelper",e.message.toString());
         }
         return result;
+    }
+
+    fun insertReport(r: Report) : Boolean {
+        Log.i("PatientsDBHelper","registrando reporte del paciente DNI: '${r.dni}', del ${r.date}");
+        try {
+            val db = this.writableDatabase;
+
+            val values = ContentValues();
+            values.put(COLUMN_DNI, r.dni);
+            values.put(COLUMN_DATE, r.date.toString());
+            values.put(COLUMN_REPORT_DETAIL, utils.serialize(r.dailyFoods));
+
+            db.insert(TABLE_REPORTS, null, values);
+            Log.i("PatientsDBHelper","reporte registrado");
+            return true;
+        } catch(e: Exception) {
+            Log.e("PatientsDBHelper",e.message.toString());
+            return false;
+        }
     }
 }

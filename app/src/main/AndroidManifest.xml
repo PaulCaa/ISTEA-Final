@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SaludableApp">
-        <activity android:name=".DayRegisterActivity"></activity>
+        <activity android:name=".PreReportActivity"></activity>
+        <activity android:name=".DayReportActivity" />
         <activity android:name=".CredentialsActivity" />
         <activity android:name=".TreatmentActivity" />
         <activity android:name=".RegisterActivity" />
