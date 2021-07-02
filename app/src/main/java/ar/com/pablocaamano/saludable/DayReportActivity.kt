@@ -27,7 +27,6 @@ class DayReportActivity : AppCompatActivity() {
     private lateinit var otherGroup: RadioGroup;
     private lateinit var otherDescript: EditText;
     private lateinit var hungerGroup: RadioGroup;
-    private lateinit var hungerY: RadioButton;
 
     private lateinit var cancel: Button;
     private lateinit var save: Button;
@@ -39,7 +38,10 @@ class DayReportActivity : AppCompatActivity() {
         this.initElements();
 
         this.save.setOnClickListener(View.OnClickListener {
-            this.createRegister();
+            val res = this.createRegister();
+            if(res) {
+                utils.goToActivity(this,PreReportActivity::class.java,this.report);
+            }
         });
 
         this.cancel.setOnClickListener(View.OnClickListener {
@@ -58,7 +60,6 @@ class DayReportActivity : AppCompatActivity() {
         this.otherGroup = findViewById(R.id.report_rg_other);
         this.otherDescript = findViewById(R.id.report_et_other_descrip);
         this.hungerGroup = findViewById(R.id.report_rg_hunger);
-        this.hungerY = findViewById(R.id.report_rb_hunger_y);
 
         this.save = findViewById(R.id.report_btn_save);
         this.cancel = findViewById(R.id.report_btn_cancel);
@@ -98,7 +99,7 @@ class DayReportActivity : AppCompatActivity() {
         }
     }
 
-    private fun createRegister() {
+    private fun createRegister() : Boolean {
         var valid: Boolean = true;
 
         val main: String = this.mainFood.text.toString();
@@ -138,7 +139,7 @@ class DayReportActivity : AppCompatActivity() {
         }
 
         var hu: Boolean = false;
-        if(this.hungerGroup.checkedRadioButtonId == this.hungerY.id) hu = true;
+        if(this.hungerGroup.checkedRadioButtonId == R.id.report_rb_hunger_y) hu = true;
 
         if(valid){
             this.food.mainFood = main;
@@ -149,6 +150,9 @@ class DayReportActivity : AppCompatActivity() {
             this.food.satisfied = hu;
             this.food.charged = true;
             this.report.dailyFoods.add(this.food);
+            // TODO insert o update en DB
         }
+
+        return valid;
     }
 }

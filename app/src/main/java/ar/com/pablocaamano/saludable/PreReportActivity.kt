@@ -22,6 +22,8 @@ class PreReportActivity : AppCompatActivity() {
     private lateinit var patient: Patient;
     private lateinit var report: Report;
 
+    private var reportCharged: Boolean = false;
+
     private lateinit var titleTextView: TextView;
     private lateinit var dateText: TextView;
     private lateinit var descriptText: TextView;
@@ -30,6 +32,8 @@ class PreReportActivity : AppCompatActivity() {
     private lateinit var lunchBtn: Button;
     private lateinit var snackBtn: Button;
     private lateinit var dinnerBtn: Button;
+
+    private lateinit var completedText: TextView;
     private lateinit var exitBtn: Button;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,11 +80,17 @@ class PreReportActivity : AppCompatActivity() {
         this.lunchBtn = findViewById(R.id.pre_btn_lunch);
         this.snackBtn = findViewById(R.id.pre_btn_snack);
         this.dinnerBtn = findViewById(R.id.pre_btn_dinner);
+        this.completedText = findViewById(R.id.pre_tv_completed);
         this.exitBtn = findViewById(R.id.pre_btn_exit);
 
         if(intent.getSerializableExtra("patient") != null) {
             this.patient = intent.getSerializableExtra("patient") as Patient;
-
+            this.reportCharged = false;
+            this.checkUserResgister();
+        } else if(intent.getSerializableExtra("report") != null ) {
+            this.report = intent.getSerializableExtra("report") as Report;
+            this.reportCharged = true;
+            this.patient = report.patient;
             this.checkUserResgister();
         } else {
             Toast.makeText(this,"Error al acceder a los datos de usuario, vuelva a intentarlo", Toast.LENGTH_SHORT).show();
@@ -89,18 +99,28 @@ class PreReportActivity : AppCompatActivity() {
     }
 
     private fun checkUserResgister() {
+        this.titleTextView.text = "Bienvenida ${this.patient.name}";
         if(this.patient.gender == 'M') this.titleTextView.text = "Bienvenido ${this.patient.name}";
-        else this.titleTextView.text = "Bienvenida ${this.patient.name}";
-
         val sdf: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy");
         this.dateText.text = "Registro de: ${sdf.format(Date())}";
 
-
-        // consultar reporte registrado en DB
-
         // si no hay registro se crea de cero
-        val dailyFoods: MutableList<DailyFood> = mutableListOf<DailyFood>();
-        this.report = Report(patient,sdf.format(Date()),dailyFoods);
+        if(!this.reportCharged) {
+            // TODO consultar reporte registrado en DB
+            val dailyFoods: MutableList<DailyFood> = mutableListOf<DailyFood>();
+            this.report = Report(patient,sdf.format(Date()),dailyFoods);
+        }
+
+        for(df in this.report.dailyFoods) {
+            when(df.name) {
+                FOOD_BREAKFAST -> this.breakfastBtn.isEnabled = false;
+                FOOD_LUNCH -> this.lunchBtn.isEnabled = false;
+                FOOD_SNACK -> this.snackBtn.isEnabled = false;
+                FOOD_DINNER -> this.dinnerBtn.isEnabled = false;
+            }
+        }
+        if(!this.breakfastBtn.isEnabled && !this.lunchBtn.isEnabled && !this.snackBtn.isEnabled && !this.dinnerBtn.isEnabled)
+            this.completedText.text = "¡Ya se reportaron todas las comidas de hoy, ingrese mañana!";
     }
 
     companion object {
