@@ -4,6 +4,213 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/green_text"
     tools:context=".DayReportActivity">
 
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="7dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/report_tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="7dp"
+            android:textAlignment="center"
+            android:textColor="@color/green_back"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="Registrar comida" />
+
+        <EditText
+            android:id="@+id/report_et_mainfood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/green_back"
+            android:ems="10"
+            android:hint="@string/main_food_label"
+            android:inputType="textPersonName"
+            android:textColor="@color/green_back" />
+
+        <EditText
+            android:id="@+id/report_et_secondfood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/green_back"
+            android:ems="10"
+            android:hint="@string/second_food_label"
+            android:inputType="textPersonName"
+            android:textColor="@color/green_back" />
+
+        <EditText
+            android:id="@+id/report_et_drink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/green_back"
+            android:ems="10"
+            android:hint="@string/drink_label"
+            android:inputType="textPersonName"
+            android:textColor="@color/green_back" />
+
+        <TextView
+            android:id="@+id/report_tv_dessert_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/dessert_subtitle"
+            android:textColor="@color/green_back"
+            android:textSize="16sp" />
+
+        <RadioGroup
+            android:id="@+id/report_rg_dessert"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/report_rb_dessert_y"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="rbClick"
+                android:text="@string/yes_label"
+                android:textColor="@color/green_back" />
+
+            <RadioButton
+                android:id="@+id/report_rb_dessert_n"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:onClick="rbClick"
+                android:text="@string/no_label"
+                android:textColor="@color/green_back" />
+
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/report_et_dessert_descrip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/green_back"
+            android:ems="10"
+            android:enabled="false"
+            android:hint="@string/dessert_label"
+            android:inputType="textPersonName"
+            android:textColor="@color/green_back" />
+
+        <TextView
+            android:id="@+id/report_tv_other_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/other_subtitle_label"
+            android:textColor="@color/green_back"
+            android:textSize="16sp" />
+
+        <RadioGroup
+            android:id="@+id/report_rg_other"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/report_rb_other_y"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="rbClick"
+                android:text="@string/yes_label"
+                android:textColor="@color/green_back" />
+
+            <RadioButton
+                android:id="@+id/report_rb_other_n"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:onClick="rbClick"
+                android:text="@string/no_label"
+                android:textColor="@color/green_back" />
+
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/report_et_other_descrip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/green_back"
+            android:ems="10"
+            android:enabled="false"
+            android:hint="@string/other_food_label"
+            android:inputType="textPersonName"
+            android:textColor="@color/green_back" />
+
+        <TextView
+            android:id="@+id/report_tv_hunger_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/hunger_subtitle_label"
+            android:textColor="@color/green_back"
+            android:textSize="16sp" />
+
+        <RadioGroup
+            android:id="@+id/report_rg_hunger"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/report_rb_hunger_y"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/yes_label"
+                android:textColor="@color/green_back" />
+
+            <RadioButton
+                android:id="@+id/report_rb_hunger_n"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/no_label"
+                android:textColor="@color/green_back" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/report_btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:text="@string/cancel_btn_label" />
+
+        <Button
+            android:id="@+id/report_btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:text="@string/save_label" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

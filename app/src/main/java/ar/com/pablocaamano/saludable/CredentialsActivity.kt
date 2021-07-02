@@ -68,7 +68,6 @@ class CredentialsActivity : AppCompatActivity() {
     }
 
     private fun validateCredentials(patient: Patient): Patient {
-        var valid: Boolean = true;
 
         val userIn: String = user.text.toString();
         if(userIn.isEmpty()){
@@ -93,7 +92,6 @@ class CredentialsActivity : AppCompatActivity() {
             this.formUtils.printInTextView(pwdValid,"Las contraseña cumple la condiciones requeridas", Color.YELLOW);
             patient.status = false;
         } else {
-            // TODO validar que el usuario no exista en la base de datos
             this.patient.user = userIn;
             this.patient.pwd = this.pwdUtils.encrypt(pwdIn);
             patient.status = true;

@@ -19,4 +19,10 @@ class FormUtils {
         elem.setTextColor(color);
         elem.text = msg;
     }
+
+    fun inputValidation(param: String) : Boolean {
+        if(param.isEmpty() || param.isBlank())
+            return true;
+        return false;
+    }
 }

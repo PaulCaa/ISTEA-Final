@@ -59,15 +59,13 @@ class MainActivity : AppCompatActivity() {
         val usrIn: String = usr.text.toString();
         if(usrIn.isBlank()){
             this.formUtils.markErrorInEditText(usr);
-            Toast.makeText(this,"Ingrese usuario",Toast.LENGTH_SHORT).show();
             valid = false;
             this.patient = Patient("","",0,'X',"","","","","",valid);
         }
 
         val pwdIn: String = pwd.text.toString();
-        if(pwdIn.isBlank() && valid){
+        if(pwdIn.isBlank()){
             this.formUtils.markErrorInEditText(pwd);
-            Toast.makeText(this,"Ingrese contraseña",Toast.LENGTH_SHORT).show();
             valid = false;
             this.patient = Patient("","",0,'X',"","","","","",valid);
         }
@@ -77,11 +75,18 @@ class MainActivity : AppCompatActivity() {
             if(res.isNotEmpty() && res[0].pwd == this.pwdUtils.encrypt(pwdIn) && res[0].user == usrIn)
                 this.patient = Patient(res[0].name, res[0].surname, res[0].dni, res[0].gender, res[0].birthDate, res[0].city, res[0].user, res[0].pwd, res[0].treatment, true);
             else {
-                this.formUtils.markErrorInEditText(usr);
-                this.formUtils.markErrorInEditText(pwd);
-                this.msg.text = "Usuario o contraseña erroneo";
-                this.patient = Patient("","",0,'X',"","","","","",false);
+                this.printErrorCredentials("Usuario o contraseña erroneo");
             }
+        } else {
+            this.printErrorCredentials("Ingrese usuario y contraseña para acceder");
         }
+    }
+
+    private fun printErrorCredentials(msj: String){
+        this.formUtils.markErrorInEditText(usr);
+        this.formUtils.markErrorInEditText(pwd);
+        this.msg.text = msj;
+        this.patient = Patient("","",0,'X',"","","","","",false);
+
     }
 }

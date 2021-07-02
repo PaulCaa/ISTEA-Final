@@ -136,12 +136,12 @@ class PatientsDBHelper (context: Context, factory: SQLiteDatabase.CursorFactory?
     }
 
     fun insertReport(r: Report) : Boolean {
-        Log.i("PatientsDBHelper","registrando reporte del paciente DNI: '${r.dni}', del ${r.date}");
+        Log.i("PatientsDBHelper","registrando reporte del paciente DNI: '${r.patient.dni}', del ${r.date}");
         try {
             val db = this.writableDatabase;
 
             val values = ContentValues();
-            values.put(COLUMN_DNI, r.dni);
+            values.put(COLUMN_DNI, r.patient.dni);
             values.put(COLUMN_DATE, r.date.toString());
             values.put(COLUMN_REPORT_DETAIL, utils.serialize(r.dailyFoods));
 

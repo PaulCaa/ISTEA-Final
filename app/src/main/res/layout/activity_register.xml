@@ -106,7 +106,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/green_back"
-            android:editable="false"
             android:ems="10"
             android:hint="@string/born_date_label"
             android:inputType="date" />

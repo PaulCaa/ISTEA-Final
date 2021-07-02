@@ -1,6 +1,5 @@
 package ar.com.pablocaamano.saludable
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -19,17 +18,16 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var patient: Patient;
 
-    private lateinit var nextBtn: Button;
-    private lateinit var backBtn: Button;
     private lateinit var nameText: EditText;
     private lateinit var surnameText: EditText
     private lateinit var dni: EditText;
     private lateinit var genderTitle: TextView;
     private lateinit var genderGroup: RadioGroup;
-    private lateinit var fGender: RadioButton;
-    private lateinit var mGender: RadioButton;
     private lateinit var birthDate: EditText;
     private lateinit var location: EditText;
+
+    private lateinit var nextBtn: Button;
+    private lateinit var backBtn: Button;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
@@ -57,9 +55,10 @@ class RegisterActivity : AppCompatActivity() {
         this.dni = findViewById(R.id.reg_et_dni);
         this.genderTitle = findViewById(R.id.reg_tv_gender_title);
         this.genderGroup = findViewById(R.id.reg_rg_gender);
-        this.fGender = findViewById(R.id.reg_rb_female);
-        this.mGender = findViewById(R.id.reg_rb_male);
+
         this.birthDate = findViewById(R.id.reg_et_born);
+        this.birthDate.isFocusableInTouchMode = false;
+
         this.location = findViewById(R.id.reg_et_locale);
 
         this.nextBtn = findViewById(R.id.reg_btn_ok);
@@ -69,7 +68,7 @@ class RegisterActivity : AppCompatActivity() {
             this.patient =intent.getSerializableExtra("patient") as Patient;
             nameText.setText(patient.name);
             surnameText.setText(patient.surname);
-            dni.setText(patient.dni);
+            dni.setText(patient.dni.toString());
             birthDate.setText(patient.birthDate);
             location.setText(patient.city);
         }
@@ -88,44 +87,35 @@ class RegisterActivity : AppCompatActivity() {
         var valid: Boolean = true;
 
         val nameIn: String = this.nameText.text.toString();
-        if (this.emptyInputValidation(nameIn)) {
+        if (formUtils.inputValidation(nameIn)) {
             this.formUtils.markErrorInEditText(nameText);
             valid = false;
         }
         val surnameIn: String = this.surnameText.text.toString();
-        if (this.emptyInputValidation(surnameIn)) {
+        if (formUtils.inputValidation(surnameIn)) {
             this.formUtils.markErrorInEditText(surnameText);
             valid = false;
         }
         val dniIn: String = this.dni.text.toString();
-        if (this.emptyInputValidation(dniIn) || dniIn.length < 5) {
+        if (formUtils.inputValidation(dniIn) || dniIn.length < 5) {
             this.formUtils.markErrorInEditText(dni);
             valid = false;
         }
 
         val dateIn: String = this.birthDate.text.toString();
-        if(this.emptyInputValidation(dateIn)) {
+        if(formUtils.inputValidation(dateIn)) {
             this.formUtils.markErrorInEditText(birthDate);
             valid = false
         }
 
         val locIn: String = this.location.text.toString();
-        if (this.emptyInputValidation(locIn)) {
+        if (formUtils.inputValidation(locIn)) {
             this.formUtils.markErrorInEditText(location);
             valid = false;
         }
 
         var genderSelect: Char = 'F';
-        val selectionId: Int = this.genderGroup.checkedRadioButtonId;
-        if(selectionId == -1){
-            this.genderTitle.setTextColor(Color.RED);
-            this.mGender.setTextColor(Color.RED);
-            this.fGender.setTextColor(Color.RED);
-            valid = false;
-        } else {
-            if (selectionId == this.fGender.id) genderSelect = 'F';
-            if (selectionId == this.mGender.id) genderSelect = 'M';
-        }
+        if(this.genderGroup.checkedRadioButtonId == R.id.reg_rb_male) genderSelect = 'M';
 
         // se verifica que el DNI no esté registrado en DB
         if(valid) {
@@ -148,9 +138,4 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun emptyInputValidation(param: String) : Boolean {
-        if(param.isEmpty() || param.isBlank())
-            return true;
-        return false;
-    }
 }

@@ -17,7 +17,6 @@ class TreatmentActivity : AppCompatActivity() {
 
     private lateinit var subtitle: TextView;
     private lateinit var rgTreatments: RadioGroup;
-    private lateinit var rbOther: RadioButton;
     private lateinit var otherInput: EditText;
 
     private lateinit var nextBtn: Button;
@@ -28,16 +27,6 @@ class TreatmentActivity : AppCompatActivity() {
         setContentView(R.layout.activity_treatment);
 
         this.initElements();
-
-        // se valida que se haya seleccionado "OTRO" para activar el EditText
-        this.rgTreatments.setOnCheckedChangeListener { group, checkedId ->
-            val rb: RadioButton = findViewById(checkedId);
-            if(rb == rbOther){
-                this.otherInput.isEnabled = true;
-            } else {
-                this.otherInput.isEnabled = true;
-            }
-        }
 
         this.backBtn.setOnClickListener(View.OnClickListener {
            utils.goToActivity(this, CredentialsActivity::class.java,this.patient);
@@ -59,7 +48,6 @@ class TreatmentActivity : AppCompatActivity() {
         this.subtitle = findViewById(R.id.treatment_tv_subtitle);
 
         this.rgTreatments = findViewById(R.id.treatment_rg_treatment);
-        this.rbOther = findViewById(R.id.treatment_rb_other);
         this.otherInput = findViewById(R.id.treatment_et_other);
 
         this.nextBtn = findViewById(R.id.treatment_btn_ok);
@@ -71,6 +59,16 @@ class TreatmentActivity : AppCompatActivity() {
             subtitle.text = patient.name + aux;
         }  else {
             utils.goToActivity(this, CredentialsActivity::class.java);
+        }
+    }
+
+    fun rbClick(view: View) {
+        if(view is RadioButton) {
+            val checked = view.isChecked
+            if(checked) {
+                if(view.getId() == R.id.treatment_rb_other) this.otherInput.isEnabled = true;
+                else this.otherInput.isEnabled = false;
+            }
         }
     }
 

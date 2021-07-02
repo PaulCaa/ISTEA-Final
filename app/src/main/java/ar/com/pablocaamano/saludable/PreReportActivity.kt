@@ -39,25 +39,25 @@ class PreReportActivity : AppCompatActivity() {
         this.initElements();
 
         this.breakfastBtn.setOnClickListener(View.OnClickListener {
-            val df: DailyFood = DailyFood(FOOD_BREAKFAST,"","","",true, false);
+            val df: DailyFood = DailyFood(FOOD_BREAKFAST,"","","","","",true, false);
             this.report.dailyFoods.add(df);
             utils.goToActivity(this,DayReportActivity::class.java,report);
         });
 
         this.lunchBtn.setOnClickListener(View.OnClickListener {
-            val df: DailyFood = DailyFood(FOOD_LUNCH,"","","",true, false);
+            val df: DailyFood = DailyFood(FOOD_LUNCH,"","","", "","",true, false);
             this.report.dailyFoods.add(df);
             utils.goToActivity(this,DayReportActivity::class.java,report);
         });
 
         this.snackBtn.setOnClickListener(View.OnClickListener {
-            val df: DailyFood = DailyFood(FOOD_SNACK,"","","",true, false);
+            val df: DailyFood = DailyFood(FOOD_SNACK,"","","", "","",true, false);
             this.report.dailyFoods.add(df);
             utils.goToActivity(this,DayReportActivity::class.java,report);
         });
 
         this.dinnerBtn.setOnClickListener(View.OnClickListener {
-            val df: DailyFood = DailyFood(FOOD_DINNER,"","","",true, false);
+            val df: DailyFood = DailyFood(FOOD_DINNER,"","","", "","",true, false);
             this.report.dailyFoods.add(df);
             utils.goToActivity(this,DayReportActivity::class.java,report);
         });
@@ -92,7 +92,7 @@ class PreReportActivity : AppCompatActivity() {
         if(this.patient.gender == 'M') this.titleTextView.text = "Bienvenido ${this.patient.name}";
         else this.titleTextView.text = "Bienvenida ${this.patient.name}";
 
-        val sdf: SimpleDateFormat = SimpleDateFormat("dd/M/yyyy");
+        val sdf: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy");
         this.dateText.text = "Registro de: ${sdf.format(Date())}";
 
 
@@ -100,7 +100,7 @@ class PreReportActivity : AppCompatActivity() {
 
         // si no hay registro se crea de cero
         val dailyFoods: MutableList<DailyFood> = mutableListOf<DailyFood>();
-        this.report = Report(patient.dni,Date(),dailyFoods);
+        this.report = Report(patient,sdf.format(Date()),dailyFoods);
     }
 
     companion object {

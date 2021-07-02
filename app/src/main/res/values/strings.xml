@@ -34,4 +34,15 @@
     <string name="lunch_label">ALMUERZO</string>
     <string name="snack_label">MERIENDA</string>
     <string name="dinner_label">CENA</string>
+    <string name="main_food_label">Comida principal</string>
+    <string name="second_food_label">Comida secundaria</string>
+    <string name="drink_label">Bebida</string>
+    <string name="dessert_subtitle">¿Ha ingerido postre?</string>
+    <string name="save_label">Guardar</string>
+    <string name="yes_label">SI</string>
+    <string name="no_label">NO</string>
+    <string name="dessert_label">Postre</string>
+    <string name="other_subtitle_label">¿Tenía tentación de ingerir otro alimento?</string>
+    <string name="other_food_label">Alimento tentado a ingerir</string>
+    <string name="hunger_subtitle_label">¿Se quedó con hambre?</string>
 </resources>
