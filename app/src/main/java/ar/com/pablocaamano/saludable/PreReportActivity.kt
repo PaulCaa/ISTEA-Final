@@ -22,6 +22,7 @@ class PreReportActivity : AppCompatActivity() {
     private lateinit var patient: Patient;
     private lateinit var report: Report;
 
+    // flag para validar si se cargaron los registros del usuario
     private var reportCharged: Boolean = false;
 
     private lateinit var titleTextView: TextView;
@@ -106,11 +107,11 @@ class PreReportActivity : AppCompatActivity() {
 
         // si no hay registro se crea de cero
         if(!this.reportCharged) {
-            // TODO consultar reporte registrado en DB
-            val dailyFoods: MutableList<DailyFood> = mutableListOf<DailyFood>();
-            this.report = Report(patient,sdf.format(Date()),dailyFoods);
+            this.report = db.findReportByPatient(this.patient,sdf.format(Date()));
+            this.reportCharged = true;
         }
 
+        // se verifican las comidas del día que ya se encuentran cargadas
         for(df in this.report.dailyFoods) {
             when(df.name) {
                 FOOD_BREAKFAST -> this.breakfastBtn.isEnabled = false;

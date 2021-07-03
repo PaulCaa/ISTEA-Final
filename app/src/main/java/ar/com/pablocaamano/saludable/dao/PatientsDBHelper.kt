@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import ar.com.pablocaamano.saludable.model.DailyFood
 import ar.com.pablocaamano.saludable.model.Report
 import ar.com.pablocaamano.saludable.model.Patient
 import ar.com.pablocaamano.saludable.utils.ModelUtils
@@ -17,8 +18,8 @@ class PatientsDBHelper (context: Context, factory: SQLiteDatabase.CursorFactory?
     companion object {
         private val utils: ModelUtils = ModelUtils();
 
-        private const val DATABASE_NAME = "patients-v1.db";
-        private const val DATABASE_VERSION = 1;
+        private const val DATABASE_NAME = "patients-v2.db";
+        private const val DATABASE_VERSION = 2;
 
         const val TABLE_PATIENTS = "patients";
         const val COLUMN_ID = "dni";
@@ -74,7 +75,7 @@ class PatientsDBHelper (context: Context, factory: SQLiteDatabase.CursorFactory?
 
     fun insertUser(p: Patient) : Boolean {
         Log.i("PatientsDBHelper","registrando paciente = {'user': '${p.user}', 'dni': '${p.dni}', 'name': '${p.name}', 'surname': '${p.surname}'}");
-        try{
+        return try{
             val db = this.writableDatabase;
 
             val values = ContentValues();
@@ -90,10 +91,10 @@ class PatientsDBHelper (context: Context, factory: SQLiteDatabase.CursorFactory?
 
             db.insert(TABLE_PATIENTS,null, values);
             Log.i("PatientsDBHelper","usuario registrado");
-            return true;
+            true;
         } catch(e: Exception) {
             Log.e("PatientsDBHelper",e.message.toString());
-            return false;
+            false;
         }
     }
 
@@ -137,7 +138,7 @@ class PatientsDBHelper (context: Context, factory: SQLiteDatabase.CursorFactory?
 
     fun insertReport(r: Report) : Boolean {
         Log.i("PatientsDBHelper","registrando reporte del paciente DNI: '${r.patient.dni}', del ${r.date}");
-        try {
+        return try {
             val db = this.writableDatabase;
 
             val values = ContentValues();
@@ -147,10 +148,31 @@ class PatientsDBHelper (context: Context, factory: SQLiteDatabase.CursorFactory?
 
             db.insert(TABLE_REPORTS, null, values);
             Log.i("PatientsDBHelper","reporte registrado");
-            return true;
+            true;
         } catch(e: Exception) {
             Log.e("PatientsDBHelper",e.message.toString());
-            return false;
+            false;
         }
+    }
+
+    fun findReportByPatient(p: Patient, date: String): Report {
+        Log.i("PatientsDBHelper","buscando reportes del DNI ${p.dni}");
+        val result: Report = Report(p,date, mutableListOf());
+        val query = "SELECT $COLUMN_REPORT_DETAIL " +
+                "FROM $TABLE_REPORTS " +
+                "WHERE $COLUMN_DNI = ${p.dni} " +
+                "AND $COLUMN_DATE = '$date'";
+        try{
+            val db = this.writableDatabase;
+            val cursor: Cursor = db.rawQuery(query, null);
+            if(cursor.moveToFirst()) {
+                val resFoods: ByteArray = cursor.getBlob(cursor.getColumnIndex(COLUMN_REPORT_DETAIL));
+                result.dailyFoods = utils.deserialize(resFoods) as MutableList<DailyFood>;
+            }
+            Log.i("PatientsDBHelper", "se obtuvieron ${result.dailyFoods.size} reportes");
+        } catch (e: Exception) {
+            Log.e("PatientsDBHelper",e.message.toString());
+        }
+        return result;
     }
 }

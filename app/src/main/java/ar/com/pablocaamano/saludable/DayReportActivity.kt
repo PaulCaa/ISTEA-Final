@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import ar.com.pablocaamano.saludable.dao.PatientsDBHelper
 import ar.com.pablocaamano.saludable.model.DailyFood
 import ar.com.pablocaamano.saludable.model.Report
 import ar.com.pablocaamano.saludable.utils.ActivityUtils
@@ -13,6 +14,7 @@ class DayReportActivity : AppCompatActivity() {
 
     private val utils: ActivityUtils = ActivityUtils();
     private val formUtils: FormUtils = FormUtils();
+    private val db: PatientsDBHelper = PatientsDBHelper(this, null);
 
     private lateinit var report: Report;
     private lateinit var food: DailyFood;
@@ -150,7 +152,7 @@ class DayReportActivity : AppCompatActivity() {
             this.food.satisfied = hu;
             this.food.charged = true;
             this.report.dailyFoods.add(this.food);
-            // TODO insert o update en DB
+            valid = db.insertReport(this.report);
         }
 
         return valid;

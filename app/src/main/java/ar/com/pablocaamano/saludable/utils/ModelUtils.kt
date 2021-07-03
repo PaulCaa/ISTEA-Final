@@ -6,7 +6,7 @@ import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 
 /**
- * Clase para serializar y deserializar objetos
+ * Clase para serializar y deserializar objetos (blobs de la DB)
  * @author: Pablo Caamaño
  */
 class ModelUtils {
